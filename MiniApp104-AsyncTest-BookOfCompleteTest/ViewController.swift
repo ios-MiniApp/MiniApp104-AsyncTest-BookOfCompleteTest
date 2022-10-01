@@ -11,9 +11,15 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
+    
+    func asyncString(completion: ((String) -> ())?) {
+        DispatchQueue.global().async {
+            sleep(3)
+            completion?("文字列A")
+        }
+    }
 
 }
 

@@ -8,29 +8,20 @@
 import XCTest
 @testable import MiniApp104_AsyncTest_BookOfCompleteTest
 
-final class MiniApp104_AsyncTest_BookOfCompleteTestTests: XCTestCase {
+class AsyncTests: XCTestCase {
+    func testAsyncString() {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+        // 非同期処理の待機と完了を表現するためのインスタンス
+        let exp = XCTestExpectation(description: "任意の文字")
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        // 非同期処理の関数の呼び出し
+        ViewController().asyncString { string in
+            XCTAssertEqual(string, "文字列A")
+            exp.fulfill() // 期待した処理が行われたとしてマーク
         }
-    }
 
+        // 待機を行うXCTestExpectationのインスタンスを指定
+        // timeoutで指定した5秒以内にexpのfulfillが呼び出されない場合、 このテストは失敗
+        wait(for: [exp], timeout: 5.0)
+    }
 }
